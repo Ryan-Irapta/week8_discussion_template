@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/todo_model.dart';
+import '../providers/auth_provider.dart';
 import '../providers/todo_provider.dart';
 import 'modal_todo.dart';
+import 'user_details_page.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -15,10 +17,9 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
-    // access the list of todos in the provider
     Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todo;
-
     return Scaffold(
+      drawer: drawer,
       appBar: AppBar(
         title: const Text("Todo"),
       ),
@@ -44,6 +45,7 @@ class _TodoPageState extends State<TodoPage> {
             itemBuilder: ((context, index) {
               Todo todo = Todo.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
+              todo.id = snapshot.data?.docs[index].id;
               return Dismissible(
                 key: Key(todo.id.toString()),
                 onDismissed: (direction) {
@@ -107,6 +109,7 @@ class _TodoPageState extends State<TodoPage> {
             context: context,
             builder: (BuildContext context) => TodoModal(
               type: 'Add',
+              item: null,
             ),
           );
         },
@@ -114,4 +117,32 @@ class _TodoPageState extends State<TodoPage> {
       ),
     );
   }
+
+  Drawer get drawer => Drawer(
+          child: ListView(padding: EdgeInsets.zero, children: [
+        const DrawerHeader(child: Text("Todo")),
+        ListTile(
+          title: const Text('Details'),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserDetailsPage()));
+          },
+        ),
+        ListTile(
+          title: const Text('Todo List'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, "/");
+          },
+        ),
+        ListTile(
+          title: const Text('Logout'),
+          onTap: () {
+            context.read<UserAuthProvider>().signOut();
+            Navigator.pop(context);
+          },
+        ),
+      ]));
 }

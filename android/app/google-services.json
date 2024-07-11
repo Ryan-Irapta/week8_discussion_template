@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395611637186",
+    "project_id": "cmsc23-todo-app-baybay",
+    "storage_bucket": "cmsc23-todo-app-baybay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395611637186:android:bbcf26590d8f939879025b",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI9vesmqx_b4y3dptd9BvdjbyotWZTpCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
